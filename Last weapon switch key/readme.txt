@@ -1,0 +1,1 @@
+Adds a "select last weapon" key to the menu and the accompanying code. The functionality is handled with a custom EventHandler and a network event.

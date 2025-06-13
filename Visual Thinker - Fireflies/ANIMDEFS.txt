@@ -1,5 +1,5 @@
-texture LAMPFLY
-	pic SFLYA0 tics 1
-	pic SFLYB0 tics 1
-	pic SFLYC0 tics 1
-	pic SFLYB0 tics 1
+texture sfly01
+	pic sfly01 tics 1
+	pic sfly02 tics 1
+	pic sfly03 tics 1
+	pic sfly02 tics 1

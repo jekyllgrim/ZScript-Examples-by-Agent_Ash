@@ -1,4 +1,4 @@
-class DoomImptest : DoomImp
+class MultiTargetImp : DoomImp
 {
 	array < Actor> extraTargets;
 
@@ -94,30 +94,6 @@ class DoomImptest : DoomImp
 			if (trg)
 			{
 				A_SpawnProjectile(missile, angle: DeltaAngle(angle, AngleTo(trg)), flags: CMF_AIMDIRECTION, pitch: PitchTo(trg, height * 0.5, trg.height * 0.5));
-			}
-		}
-	}
-
-	void A_SpawnMultipleProjectilesAlt(class<Actor> missile = 'DoomImpBall', missiles = 4)
-	{
-		A_SpawnProjectile(missile);
-		int id = 0;
-		for (int i = 0; i < missiles; i++)
-		{
-			actor trg = target;
-			if (id < extraTargets.Size())
-			{
-				trg = extraTargets[id];
-			}
-			double spawnheight = (i == 0 || i == 3) ? 44 : 28;
-			double spawnofs_xy = i < 2 ? 14 : -14;
-			if (trg)
-			{			
-				A_SpawnProjectile(missile, spawnheight: spawnheight, spawnofs_xy: spawnofs_xy, angle: DeltaAngle(angle, AngleTo(trg)), flags: CMF_AIMDIRECTION, pitch: PitchTo(trg, height * 0.5, trg.height * 0.5));
-			}
-			else
-			{			
-				A_SpawnProjectile(missile, spawnheight: spawnheight, spawnofs_xy: spawnofs_xy);
 			}
 		}
 	}

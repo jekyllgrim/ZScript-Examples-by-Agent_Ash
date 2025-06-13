@@ -1,0 +1,1 @@
+Shows how to make a shootable projectile with a dedicated hitbox. Originally created for ZDoom Wiki.

@@ -1,4 +1,4 @@
 GameInfo
 {
-	AddEventHandlers = "JGP_LastWeaponHandler"
+	AddEventHandlers = "LWK_LastWeaponHandler"
 }

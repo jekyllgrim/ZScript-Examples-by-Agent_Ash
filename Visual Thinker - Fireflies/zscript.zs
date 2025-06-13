@@ -1,15 +1,71 @@
-class LampTest : TechLamp
+version "4.14.0"
+
+// The fly itself, with a custom spawn function:
+class SmallFly : VisualThinker
 {
-	override void PostbeginPlay()
+	Actor source;
+	double offsetX;
+	double offsetY;
+	Vector3 sourcepos;
+	Vector3 goal;
+	int flyTime;
+
+	static SmallFly SpawnFly(Actor attach, String texture, double offsetz, double offsetX, double offsetY, bool fullbright = true, vector2 scale = (1,1))
 	{
-		Super.PostBeginPlay();
-		for (int i = 0; i < 3; i++)
+		TextureID tex = TexMan.CheckForTexture(texture);
+		if (!tex.IsValid())
 		{
-			SmallFly.SpawnFly(self, "BAL1A0", 64, 24, 12, true, (0.2,0.2));
+			Console.Printf("\cgFly spawn error:\c- Could not find texture named \cd%s\c-", texture);
+			return null;
+		}
+		Vector3 spos = attach.pos + (0,0,offsetz);
+		let fly = SmallFly(VisualThinker.Spawn('SmallFly', tex, spos, (0,0,0), scale:scale));
+		fly.source = attach;
+		fly.offsetX = offsetX;
+		fly.offsetY = offsetY;
+		fly.sourcepos = spos;
+		fly.flags |= SPF_LOCAL_ANIM;
+		if (fullbright)
+		{
+			fly.flags |= SPF_FULLBRIGHT;
+		}
+		return fly;
+	}
+
+	override void Tick()
+	{
+		Super.Tick();
+		if (!source)
+		{
+			Destroy();
+			return;
+		}
+		if (source.isFrozen() || source.bDORMANT)
+		{
+			vel = (0,0,0);
+			flytime = 0;
+			return;
+		}
+		
+		if (flyTime > 0)
+		{
+			flyTime--;
+			vel *= 0.95;
+		}
+		else
+		{
+			goal.xy = sourcepos.xy + Actor.RotateVector((offsetX, 0), frandom[fly](0,360));
+			goal.z = sourcepos.z + frandompick[fly](-offsetY, offsetY) * frandom[fly](0.5, 1);
+			flyTime = random[fly](5, 12);
+			let diff = Level.Vec3Diff(pos, goal);
+			let dir = diff.Unit();
+			let dist = diff.Length();
+			vel = dir * (dist / flyTime);
 		}
 	}
 }
 
+// A map-placeable customizable fly spawner:
 class FlySpawner : Actor
 {
 	int renderDistance;
@@ -77,67 +133,15 @@ class FlySpawner : Actor
 	}
 }
 
-class SmallFly : VisualThinker
+// Test lamp: a tech lamp that spawns 3 flies around itself
+class LampTest : TechLamp
 {
-	Actor source;
-	double offsetX;
-	double offsetY;
-	Vector3 sourcepos;
-	Vector3 goal;
-	int flyTime;
-	bool frozen;
-
-	static SmallFly SpawnFly(Actor attach, string texture, double offsetz, double offsetX, double offsetY, bool fullbright = true, vector2 scale = (1,1))
+	override void PostbeginPlay()
 	{
-		Vector3 spos = attach.pos + (0,0,offsetz);
-		TextureID tex = TexMan.CheckForTexture(texture);
-		if (!tex.IsValid())
+		Super.PostBeginPlay();
+		for (int i = 0; i < 3; i++)
 		{
-			Console.Printf("\cgFly spawn error:\c- Could not find texture named \cd%s\c-", texture);
-			return null;
-		}
-		let fly = SmallFly(VisualThinker.Spawn('SmallFly', tex, spos, (0,0,0), scale:scale));
-		fly.source = attach;
-		fly.offsetX = offsetX;
-		fly.offsetY = offsetY;
-		fly.sourcepos = spos;
-		fly.flags |= SPF_LOCAL_ANIM;
-		if (fullbright)
-		{
-			fly.flags |= SPF_FULLBRIGHT;
-		}
-		return fly;
-	}
-
-	override void Tick()
-	{
-		Super.Tick();
-		if (!source)
-		{
-			Destroy();
-			return;
-		}
-		if (source.isFrozen() || source.bDORMANT)
-		{
-			vel = (0,0,0);
-			flytime = 0;
-			return;
-		}
-		
-		if (flyTime > 0)
-		{
-			flyTime--;
-			vel *= 0.95;
-		}
-		else
-		{
-			goal.xy = sourcepos.xy + Actor.RotateVector((offsetX, 0), frandom[fly](0,360));
-			goal.z = sourcepos.z + frandompick[fly](-offsetY, offsetY) * frandom[fly](0.5, 1);
-			flyTime = random[fly](5, 12);
-			let diff = Level.Vec3Diff(pos, goal);
-			let dir = diff.Unit();
-			let dist = diff.Length();
-			vel = dir * (dist / flyTime);
+			SmallFly.SpawnFly(self, "sfly01", 64, 24, 12, scale: (1.5,1.5));
 		}
 	}
 }
