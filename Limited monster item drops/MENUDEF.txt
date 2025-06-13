@@ -1,0 +1,14 @@
+AddOptionMenu "OptionsMenu"
+{
+	SubMenu "Monster drops amount", "MonsterDrops"
+}
+
+AddOptionMenu "OptionsMenuSimple"
+{
+	SubMenu "Monster drops amount", "MonsterDrops"
+}
+
+OptionMenu "MonsterDrops"
+{
+	Slider "Max items dropped by monsters" , "cl_maxmonsterdrops", 10, 10000, 50
+}

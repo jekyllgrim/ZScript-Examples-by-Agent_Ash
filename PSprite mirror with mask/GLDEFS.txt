@@ -1,0 +1,6 @@
+Material Sprite "SHGGA0"
+{
+	Shader "shaders/CamTexweapon.fp"
+	Texture camTex "Weapon.camtex"
+	Texture maskTex "graphics/SHTGA0.png"
+}

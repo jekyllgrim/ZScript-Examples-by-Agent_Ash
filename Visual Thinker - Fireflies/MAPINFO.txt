@@ -1,0 +1,4 @@
+DoomEdNums
+{
+	16050 = FlySpawner
+}

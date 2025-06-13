@@ -1,0 +1,5 @@
+texture LAMPFLY
+	pic SFLYA0 tics 1
+	pic SFLYB0 tics 1
+	pic SFLYC0 tics 1
+	pic SFLYB0 tics 1

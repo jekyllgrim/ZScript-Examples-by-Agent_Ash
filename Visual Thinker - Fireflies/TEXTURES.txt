@@ -1,0 +1,2 @@
+texture LAMPFLY, 1, 1
+{}

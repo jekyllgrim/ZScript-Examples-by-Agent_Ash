@@ -1,0 +1,2 @@
+server nosave float jgp_corpseFadeTime = 3.0;
+server nosave float jgp_corpseFadeDelay = 5.0;

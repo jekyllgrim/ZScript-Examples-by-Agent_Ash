@@ -1,0 +1,5 @@
+addKeySection "Expanded controls" jgpcontrols
+
+addMenuKey "Select Last Weapon" "netevent selectLastWeapon"
+
+defaultbind Q "netevent selectLastWeapon"
