@@ -1,0 +1,8 @@
+brightmap Sprite "TMINA0"
+{
+	map "TMINC0"
+}
+brightmap Sprite "TMINB0"
+{
+	map "TMINC0"
+}
